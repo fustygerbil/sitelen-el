@@ -40,7 +40,7 @@ Eval `toki-pona.el` to load the emacs quail input rules that enter sitelen pona 
 
 ## Usage
 
-<kbd>C-\</kbd> (`toggle-input-method`) and select `toki pona`. I've only tested this with an english keyboard layout. Repeat to toggle back.
+<kbd> C-\ </kbd> (`toggle-input-method`) and select `toki pona`. I've only tested this with an english keyboard layout. Repeat to toggle back.
 
 ASCII to sitelen pona mappings are like those describes in Fairfax Pona HD features, with some additions:
 - single space ends current glyph entry (if necessary)
