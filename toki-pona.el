@@ -1,28 +1,7 @@
 ;; Define a quail input method for entering sitelen pona glyphs (toki pona) in emacs
 
-;; Based on a discouraged method described here:
-;; https://www.kreativekorp.com/ucsur/charts/sitelen.html
-;; and after failing to have opentype features work automatically
-;; possibly related: https://emacs.stackexchange.com/a/61981
-;; - as long as relevant unicode blocks are mapped to e.g. Fairfax Pona HD,
-;;   a different principal font can be set
-;; - (use-package unicode-fonts)
-;; - (set-fontset-font t '(#xe000 . #xf8ff) "Fairfax Pona HD")
-;; - (set-fontset-font t '(#xf0000 . #x10ffff) "Fairfax Pona HD")
-
-;; Latin to glyph mappings assume Fairfax Pona HD font, with some additions:
-;; - single space ends current glyph entry
-;;   - e.g. /e suno/ vs /esun o/
-;; - double space maps to a single space
-;; - underscore "_" places preceding glyph between top/bottom cartouche lines
-;; - "Pi" starts extended pi
-;;   - comma "," places preceding glyph above Pi extension line
-
-
-
-
 ;; eval in open-relay/features/asuki.fea to get commented quail rule pairs 
-(defun my/quailify ()
+(defun quailify ()
   "Convert a .fea transliteration buffer into quail rule pairs."
   (while (re-search-forward "#" nil t)
     (replace-match ";"))
@@ -2257,18 +2236,30 @@
  ;; ( ?󱦟)
  )
 
+;; Useful:
+;; magick -fill black -font "~/.fonts/FairfaxPonaHD.ttf" label:"󱤲" mani.svg
 
-;; TODO
-;; - ?Similar control char manual input for other extended glyphs
-;; - Word documentation precisely
-;; - ?toki pona (?minor) mode
-;;   - Properly format extended glyphs and inners
-;;   - cartouches as parens (partially working)
-;;     - (modify-syntax-entry ?󱦐 "(󱦑")
-;;     - (modify-syntax-entry ?󱦑 ")󱦐")
-;;   - Long pi phrases ?to use prefix syntax
-;; - Word and glyph completion
-;;   - ?Dictionary
-;; - Unicode character description strings
+(modify-syntax-entry ?󱦐 "(󱦑")
+                     (modify-syntax-entry ?󱦑 ")󱦐")
 
-;; magick convert -background none -fill black -font "~/.fonts/FairfaxPonaHD.ttf" -pointsize 300 label:"󱤲" mani.png
+
+(defvar cartouche-open-char 989584)
+(defvar cartouche-line-char 989586)
+
+(defun inside-cartouche-p (&optional pos)
+  "Test if point (optionally position) is inside a cartouche"
+  (let ((ppss (syntax-ppss pos)))
+    (when (nth 1 ppss) (eq cartouche-open-char (char-after (nth 1 ppss))))))
+
+(defun backwards-cartouche ()
+  "If inside a cartouche, add cartouche lines to previous character"
+  (when (and (inside-cartouche-p)
+             (not (eq (char-before) cartouche-open-char)))
+    (insert-char cartouche-line-char)))
+
+;; This is just a test of the approach
+;; To get automatic cartouche lines while typing, add the buffer-local hook below
+;; TODO refactor with all the logic that would go into a general hook
+
+;;(add-hook 'post-self-insert-hook 'backwards-cartouche 100 t)
+;;(remove-hook 'post-self-insert-hook 'inside-cartouche-p t)

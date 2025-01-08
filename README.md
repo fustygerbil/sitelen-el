@@ -1,8 +1,10 @@
 # sitelen-el
 
-A way to enter sitelen pona (toki pona) glyphs in emacs, but not an ideal way.
+A way to enter sitelen pona (toki pona) glyphs in emacs.
 
 For now, the result is an input method that inputs sitelen pona unicode glyphs as you type ASCII characters. There are many improvements to be made.
+
+This allows you to toggle between writing your default language and sitelen pona, without futzing with fonts or modes. And your principal/configured fonts remain unchanged for all but the relevant glyphs.
 
 ## Setup
 
@@ -28,7 +30,7 @@ sitelen pona does not have its own unicode block. For more on that story, see [s
     
 A handy visualisation of the glyph to unicode code point mappings is on this [lipu-sona.pona.la gif](https://lipu-sona.pona.la/sitelen_ucsur.gif).
 
-If you've evaled those lines then trying to enter a code point from that table into any buffer should show a sitelen pona glyph. For instance <kbd>C-x 8 RET F1932 RET</kbd> and be rewarded with the glyph for ![mani](./doc/mani.png).
+If you've evaled those lines then trying to enter a code point from that table into any buffer should show a sitelen pona glyph. For instance <kbd>C-x 8 RET F1932 RET</kbd> and be rewarded with the glyph for ![mani](./doc/mani.svg).
 
 ### 3: Define the input method
 
@@ -44,39 +46,43 @@ Eval `toki-pona.el` to load the emacs quail input rules that enter sitelen pona 
 
 ASCII to sitelen pona mappings are like those describes in Fairfax Pona HD features, with some additions:
 - single space ends current glyph entry (if necessary)
-  - so <kbd>e suno</kbd> gives ![e suno](./doc/e_suno.png), and <kbd>esun o</kbd> ![esun o](./doc/esun_o.png)
+  - so <kbd>e suno</kbd> gives ![e suno](./doc/e_suno.svg), and <kbd>esun o</kbd> ![esun o](./doc/esun_o.svg)
 - double space is mapped to a single space character
 - underscore _ places the preceding glyph between horizontal cartouche lines
   - square brackets enclose the cartouche
-  - <kbd>[jan_pona_]</kbd> ![jan pona in a cartouche](./doc/janPona.png)
+  - <kbd>[jan_pona_]</kbd> ![jan pona in a cartouche](./doc/janPona.svg)
 - <kbd>Pi</kbd> starts extended pi
   - comma , places preceding glyph onto Pi extension line
-  - <kbd>tomo Pi telo,nasa,</kbd> ![tomo pi telo nasa with extended pi](./doc/tomoPiTeloNasa.png)
+  - <kbd>tomo Pi telo,nasa,</kbd> ![tomo pi telo nasa with extended pi](./doc/tomoPiTeloNasa.svg)
 - all ASCII transliterations work; see the font features or the quail rules in `toki-pona.el` for fun like:
-  - <kbd>kijtesantakalu</kbd> ![kijetesantakalu](./doc/kijetesantakalu.png)
+  - <kbd>kijtesantakalu</kbd> ![kijetesantakalu](./doc/kijetesantakalu.svg)
   - combined glyphs with all joiners
-    - zero-width <kbd>kala-lili</kbd> ![kala lili with zero-width joiner](./doc/kalaLiliZero.png)
-    - stacked <kbd>kala^lili</kbd> ![kala lili with stacked joiner](./doc/kalaLiliStacked.png)
-    - scale <kbd>kala*lili</kbd> ![kala lili with scale joiner](./doc/kalaLiliScale.png)
+    - zero-width <kbd>kala-lili</kbd> ![kala lili with zero-width joiner](./doc/kalaLiliZero.svg)
+    - stacked <kbd>kala^lili</kbd> ![kala lili with stacked joiner](./doc/kalaLiliStacked.svg)
+    - scale <kbd>kala*lili</kbd> ![kala lili with scale joiner](./doc/kalaLiliScale.svg)
     
 ## Background
 
 This is based on a discouraged method [described by Fairfax fonts' creators](https://www.kreativekorp.com/ucsur/charts/sitelen.html), after I failed to get Opentype features working automatically in emacs. A possibly related issue is discussed here on [stackexchange](https://emacs.stackexchange.com/a/61981).
 
 In support of future goals, I looked at treating extended glyphs as syntactical enclosures, so for instance having cartouches behave like parens. The first step is modifying the syntax table:
+
     (modify-syntax-entry ?󱦐 "(󱦑")
     (modify-syntax-entry ?󱦑 ")󱦐")
+    
+Then it was easy to have cartouche lines added automatically while typing after an opening cartouche 'bracket' (see the elisp for functions and the relevant hook). Thinking about how this would work for extended Pi puts me in mind of the chars whose function I couldn't guess in the rule assignments---perhaps there are some extended glyph terminators there.
 
 ## TODO
 
 - [ ] Control char manual input for other extended glyphs (a la cartouche, extended pi)
-- [ ] ?toki pona mode
+- [ ] toki pona ?minor-mode
   - [ ] Properly format extended glyphs and inners (?ligatures)
+    - [ ] Identify unidentified characters, i.e. are some of them extended glyph terminators?
   - [ ] Cartouches as parens (partial progress using syntax table)
-  - [ ] Long Pi phrases as ?prefix syntax
-- [ ] Completion, e.g. glyphs
+  - [ ] Automatically reformat glyphs contained in cartouche/long pi etc. (?redundant w ligatures)
+- [ ] Glyph completion
   - [ ] ?Dictionary
-- [ ] ?Recognition of grammatical structures, hinting like in programming modes
+- [ ] Font Lock
 - [ ] Unicode character description strings (e.g. currently no completion for UCSUR `insert-char`)
 - [ ] Additional abbreviated input methods
 
