@@ -18,9 +18,11 @@ I have only tested this with [Fairfax Pona HD](https://www.kreativekorp.com/soft
 ### 2: Map unicode blocks
 
 Enable unicode fonts. For instance, if you use `use-package` then you can add this line in `init.el`:
+
     (use-package unicode-fonts)
 
 sitelen pona does not have its own unicode block. For more on that story, see [sona.pona.la](https://sona.pona.la/wiki/Unicode). By convention, sitelen pona glyphs map onto specific code points in two so called Private Use Areas. So we need to tell emacs to use unicode characters from Fairfax Pona HD (only) when it needs to enter a character whose code point is in one of those two ranges. For instance, add to `init.el`:
+
     (set-fontset-font t '(#xe000 . #xf8ff) "Fairfax Pona HD")
     (set-fontset-font t '(#xf0000 . #x10ffff) "Fairfax Pona HD")
     
@@ -31,6 +33,7 @@ If you've evaled those lines then trying to enter a code point from that table i
 ### 3: Define the input method
 
 Eval `toki-pona.el` to load the emacs quail input rules that enter sitelen pona when you type ASCII characters. For instance, to load it when emacs starts, clone the git repo and load it from `init.el`:
+
     (load "~/PATH-TO-GIT-REPO/toki-pona.el")
 
 `toki-pona.el` also defines a function `my/quailify` that I used to derive the many ASCII->unicode rule mappings from the Opentype font feature (`.fea`) file.
