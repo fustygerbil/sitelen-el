@@ -738,7 +738,7 @@
  ("[" ?󱦐)	; start of cartouche
   ("]" ?󱦑)	; end of cartouche
  ("(" ?󱦗)	; start of extended glyph
-  (")" ?󱦘)	; end of extended glyph
+ (")" ?󱦘)	; end of extended glyph
  ("{" ?󱦚)	; start of reverse extended glyph
  ("}" ?󱦛)	; end of reverse extended glyph
  (".." ?󱦜)	; interpunct
@@ -2270,3 +2270,5 @@
 ;; - Word and glyph completion
 ;;   - ?Dictionary
 ;; - Unicode character description strings
+
+;; magick convert -background none -fill black -font "~/.fonts/FairfaxPonaHD.ttf" -pointsize 300 label:"󱤲" mani.png

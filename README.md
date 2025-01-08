@@ -28,7 +28,7 @@ sitelen pona does not have its own unicode block. For more on that story, see [s
     
 A handy visualisation of the glyph to unicode code point mappings is on this [lipu-sona.pona.la gif](https://lipu-sona.pona.la/sitelen_ucsur.gif).
 
-If you've evaled those lines then trying to enter a code point from that table into any uffer should show a sitelen pona glyph. For instance `C-x 8 RET F1932 RET` and be rewarded with 󱤲 (mani).
+If you've evaled those lines then trying to enter a code point from that table into any buffer should show a sitelen pona glyph. For instance <kbd>C-x 8 RET F1932 RET</kbd> and be rewarded with the glyph for ![mani](./doc/mani.png).
 
 ### 3: Define the input method
 
@@ -40,25 +40,25 @@ Eval `toki-pona.el` to load the emacs quail input rules that enter sitelen pona 
 
 ## Usage
 
-`C-\` (`M-x toggle-input-method RET`) and select `toki pona`. I've only tested this with an english keyboard layout. Repeat to toggle back.
+<kbd>C-\</kbd> (`toggle-input-method`) and select `toki pona`. I've only tested this with an english keyboard layout. Repeat to toggle back.
 
 ASCII to sitelen pona mappings are like those describes in Fairfax Pona HD features, with some additions:
 - single space ends current glyph entry (if necessary)
-  - so `e suno` gives 󱤉󱥤, and `esun o` 󱤋󱥄
+  - so <kbd>e suno</kbd> gives ![e suno](./doc/e_suno.png), and <kbd>esun o</kbd> ![esun o](./doc/esun_o.png)
 - double space is mapped to a single space character
 - underscore _ places the preceding glyph between horizontal cartouche lines
   - square brackets enclose the cartouche
-  - `[jan_pona_]` 󱦐󱤑󱦒󱥔󱦒󱦑
-- `Pi` starts extended pi
+  - <kbd>[jan_pona_]</kbd> ![jan pona in a cartouche](./doc/janPona.png)
+- <kbd>Pi</kbd> starts extended pi
   - comma , places preceding glyph onto Pi extension line
-  - `tomo Pi telo,nasa,` 󱥭󱦓󱥪󱦔󱤾󱦔
+  - <kbd>tomo Pi telo,nasa,</kbd> ![tomo pi telo nasa with extended pi](./doc/tomoPiTeloNasa.png)
 - all ASCII transliterations work; see the font features or the quail rules in `toki-pona.el` for fun like:
-  - `kijtesantakalu` 󱦀
+  - <kbd>kijtesantakalu</kbd> ![kijetesantakalu](./doc/kijetesantakalu.png)
   - combined glyphs with all joiners
-    - zero-width `kala-lili` 󿦨
-    - stacked `kala^lili` 󿮻
-    - scale `kala*lili` 󿦨
-  
+    - zero-width <kbd>kala-lili</kbd> ![kala lili with zero-width joiner](./doc/kalaLiliZero.png)
+    - stacked <kbd>kala^lili</kbd> ![kala lili with stacked joiner](./doc/kalaLiliStacked.png)
+    - scale <kbd>kala*lili</kbd> ![kala lili with scale joiner](./doc/kalaLiliScale.png)
+    
 ## Background
 
 This is based on a discouraged method [described by Fairfax fonts' creators](https://www.kreativekorp.com/ucsur/charts/sitelen.html), after I failed to get Opentype features working automatically in emacs. A possibly related issue is discussed here on [stackexchange](https://emacs.stackexchange.com/a/61981).
@@ -69,16 +69,16 @@ In support of future goals, I looked at treating extended glyphs as syntactical 
 
 ## TODO
 
-[] Control char manual input for other extended glyphs (a la cartouche, extended pi)
-[] ?toki pona mode
-  [] Properly format extended glyphs and inners (?ligatures)
-  [] Cartouches as parens (partial progress using syntax table)
-  [] Long Pi phrases as ?prefix syntax
-[] Completion, e.g. glyphs
-  [] ?Dictionary
-[] ?Recognition of grammatical structures, hinting like in programming modes
-[] Unicode character description strings (e.g. currently no completion for UCSUR `insert-char`)
-[] Additional abbreviated input methods
+- [ ] Control char manual input for other extended glyphs (a la cartouche, extended pi)
+- [ ] ?toki pona mode
+  - [ ] Properly format extended glyphs and inners (?ligatures)
+  - [ ] Cartouches as parens (partial progress using syntax table)
+  - [ ] Long Pi phrases as ?prefix syntax
+- [ ] Completion, e.g. glyphs
+  - [ ] ?Dictionary
+- [ ] ?Recognition of grammatical structures, hinting like in programming modes
+- [ ] Unicode character description strings (e.g. currently no completion for UCSUR `insert-char`)
+- [ ] Additional abbreviated input methods
 
 ## Credit
 
